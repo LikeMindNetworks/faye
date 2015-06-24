@@ -257,10 +257,18 @@ Faye.Server = Faye.Class({
       var
         i = 0,
         n = subscription.length,
-        barrierFn = function(successful) {
-          if (response.error || i + 1 === n || n === 0) {
+
+        // set to max number of time barrierFn can be called
+        cnt = subscription.length,
+        barrierFn = function(successful, forced) {
+          if (response.error || --cnt === 0 || forced) {
+            // can only be called once
+            barrierFn = function() {};
+
             response.successful = !response.error
-              && (typeof successful === 'undefined' || successful);
+              && (
+                arguments.length === 0 || successful
+              );
 
             callback.call(context, response);
           }
@@ -277,7 +285,9 @@ Faye.Server = Faye.Class({
         this._engine.subscribe(clientId, channel, barrierFn);
       }
 
-      barrierFn();
+      if (response.error || n === 0) {
+        barrierFn(response.successful, true);
+      }
     }, this);
   },
 
