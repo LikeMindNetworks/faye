@@ -254,7 +254,19 @@ Faye.Server = Faye.Class({
 
       response.subscription = message.subscription || [];
 
-      for (var i = 0, n = subscription.length; i < n; i++) {
+      var
+        i = 0,
+        n = subscription.length,
+        barrierFn = function(successful) {
+          if (response.error || i + 1 === n || n === 0) {
+            response.successful = !response.error
+              && (typeof successful === 'undefined' || successful);
+
+            callback.call(context, response);
+          }
+        };
+
+      for (; i < n; i++) {
         channel = subscription[i];
 
         if (response.error) break;
@@ -262,11 +274,10 @@ Faye.Server = Faye.Class({
         if (!Faye.Channel.isValid(channel))                  response.error = Faye.Error.channelInvalid(channel);
 
         if (response.error) break;
-        this._engine.subscribe(clientId, channel);
+        this._engine.subscribe(clientId, channel, barrierFn);
       }
 
-      response.successful = !response.error;
-      callback.call(context, response);
+      barrierFn();
     }, this);
   },
 

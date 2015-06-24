@@ -1,5 +1,5 @@
-{ "name"            : "faye"
-, "description"     : "Simple pub/sub messaging for the web"
+{ "name"            : "faye-likemindnetworks"
+, "description"     : "forked from http://faye.jcoglan.com"
 , "homepage"        : "http://faye.jcoglan.com"
 , "author"          : "James Coglan <jcoglan@gmail.com> (http://jcoglan.com/)"
 , "keywords"        : ["comet", "websocket", "pubsub", "bayeux", "ajax", "http"]
@@ -28,7 +28,7 @@
                       }
 
 , "repository"      : { "type"  : "git"
-                      , "url"   : "git://github.com/faye/faye.git"
+                      , "url"   : "git://github.com/sencenan/faye.git"
                       }
 
 , "bugs"            : "http://github.com/faye/faye/issues"

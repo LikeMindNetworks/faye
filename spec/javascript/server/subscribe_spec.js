@@ -19,7 +19,9 @@ JS.ENV.Server.SubscribeSpec = JS.Test.describe("Server subscribe", function() { 
       }})
 
       it("subscribes the client to the channel", function() { with(this) {
-        expect(engine, "subscribe").given(clientId, "/foo")
+        expect(engine, "subscribe").given(
+          clientId, "/foo", instanceOf(Function)
+        )
         server.subscribe(message, false, function() {})
       }})
 
@@ -41,8 +43,8 @@ JS.ENV.Server.SubscribeSpec = JS.Test.describe("Server subscribe", function() { 
         }})
 
         it("creates multiple subscriptions", function() { with(this) {
-          expect(engine, "subscribe").given(clientId, "/foo")
-          expect(engine, "subscribe").given(clientId, "/bar")
+          expect(engine, "subscribe").given(clientId, "/foo", instanceOf(Function))
+          expect(engine, "subscribe").given(clientId, "/bar", instanceOf(Function))
           server.subscribe(message, false, function() {})
         }})
 
@@ -65,7 +67,7 @@ JS.ENV.Server.SubscribeSpec = JS.Test.describe("Server subscribe", function() { 
         }})
 
         it("subscribes the client to the channel pattern", function() { with(this) {
-          expect(engine, "subscribe").given(clientId, "/foo/**")
+          expect(engine, "subscribe").given(clientId, "/foo/**", instanceOf(Function))
           server.subscribe(message, false, function() {})
         }})
 
@@ -201,7 +203,7 @@ JS.ENV.Server.SubscribeSpec = JS.Test.describe("Server subscribe", function() { 
       }})
 
       it("subscribes local clients to the channel", function() { with(this) {
-        expect(engine, "subscribe").given(clientId, "/meta/foo")
+        expect(engine, "subscribe").given(clientId, "/meta/foo", instanceOf(Function))
         server.subscribe(message, true, function() {})
       }})
 
