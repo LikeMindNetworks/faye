@@ -310,6 +310,26 @@ Faye.Server = Faye.Class({
 
       response.subscription = message.subscription || [];
 
+      var
+        i = 0,
+        n = subscription.length,
+
+        // set to max number of time barrierFn can be called
+        cnt = subscription.length,
+        barrierFn = function(successful, forced) {
+          if (response.error || --cnt === 0 || forced) {
+            // can only be called once
+            barrierFn = function() {};
+
+            response.successful = !response.error
+              && (
+                arguments.length === 0 || successful
+              );
+
+            callback.call(context, response);
+          }
+        };
+
       for (var i = 0, n = subscription.length; i < n; i++) {
         channel = subscription[i];
 
@@ -318,11 +338,12 @@ Faye.Server = Faye.Class({
         if (!Faye.Channel.isValid(channel))                  response.error = Faye.Error.channelInvalid(channel);
 
         if (response.error) break;
-        this._engine.unsubscribe(clientId, channel);
+        this._engine.unsubscribe(clientId, channel, barrierFn);
       }
 
-      response.successful = !response.error;
-      callback.call(context, response);
+      if (response.error || n === 0) {
+        barrierFn(response.successful, true);
+      }
     }, this);
   }
 });

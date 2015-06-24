@@ -19,7 +19,7 @@ JS.ENV.Server.UnsubscribeSpec = JS.Test.describe("Server unsubscribe", function(
       }})
 
       it("unsubscribes the client from the channel", function() { with(this) {
-        expect(engine, "unsubscribe").given(clientId, "/foo")
+        expect(engine, "unsubscribe").given(clientId, "/foo", instanceOf(Function))
         server.unsubscribe(message, false, function() {})
       }})
 
@@ -41,8 +41,8 @@ JS.ENV.Server.UnsubscribeSpec = JS.Test.describe("Server unsubscribe", function(
         }})
 
         it("destroys multiple subscriptions", function() { with(this) {
-          expect(engine, "unsubscribe").given(clientId, "/foo")
-          expect(engine, "unsubscribe").given(clientId, "/bar")
+          expect(engine, "unsubscribe").given(clientId, "/foo", instanceOf(Function))
+          expect(engine, "unsubscribe").given(clientId, "/bar", instanceOf(Function))
           server.unsubscribe(message, false, function() {})
         }})
 
@@ -65,7 +65,7 @@ JS.ENV.Server.UnsubscribeSpec = JS.Test.describe("Server unsubscribe", function(
         }})
 
         it("destroys the subscription to the channel pattern", function() { with(this) {
-          expect(engine, "unsubscribe").given(clientId, "/foo/**")
+          expect(engine, "unsubscribe").given(clientId, "/foo/**", instanceOf(Function))
           server.unsubscribe(message, false, function() {})
         }})
 
@@ -201,7 +201,7 @@ JS.ENV.Server.UnsubscribeSpec = JS.Test.describe("Server unsubscribe", function(
       }})
 
       it("unsubscribes local clients from the channel", function() { with(this) {
-        expect(engine, "unsubscribe").given(clientId, "/meta/foo")
+        expect(engine, "unsubscribe").given(clientId, "/meta/foo", instanceOf(Function))
         server.unsubscribe(message, true, function() {})
       }})
 
