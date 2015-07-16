@@ -1,3 +1,12 @@
+# Main differences from the upstream Faye
+
+Updated to NodeJS implmentation:
+* ```engine.subscribe``` now invokes the callback after the subscription is finished
+* ```engine.unsubscribe``` now invokes the callback after the unsubscribe is finished
+* these make it possible to have an async implementation of subscription for the engine
+
+We try to sync up with the up stream regularly. However, since we have changed some of the original unit tests, we will not be submitting a pull request to upstream at this point.
+
 # Faye
 
 Faye is a set of tools for simple publish-subscribe messaging between web
